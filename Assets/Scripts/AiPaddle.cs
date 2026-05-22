@@ -1,28 +1,32 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AiPaddle : MonoBehaviour
 {
     public Transform ball;
     public float speed = 5f;
-    public float reactionDelay = 0.1f;
 
-    private float targetY;
+    public float minY = -5.5f;
+    public float maxY = 5.5f;
 
     void Update()
     {
         if (ball == null) return;
 
-        if (Time.time % reactionDelay < 0.02f)
-        {
-            targetY = ball.position.y + Random.Range(-0.5f, 0.5f);
-        }
+        Vector3 target = new Vector3(
+            transform.position.x,
+            ball.position.y,
+            transform.position.z
+        );
 
-        Vector2 target = new Vector2(transform.position.x, targetY);
-
-        transform.position = Vector2.MoveTowards(
+        Vector3 pos = Vector3.MoveTowards(
             transform.position,
             target,
             speed * Time.deltaTime
         );
+
+        // 🔒 Clamp movement
+        pos.y = Mathf.Clamp(pos.y, minY, maxY);
+
+        transform.position = pos;
     }
 }
