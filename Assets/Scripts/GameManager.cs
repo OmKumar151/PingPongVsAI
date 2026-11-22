@@ -264,7 +264,11 @@ public class GameManager : MonoBehaviour
 
     void UpdateScore()
     {
-        scoreText.text = playerScore + " : " + aiScore;
+        // Player score in the player's colour, AI score in the AI's colour
+        scoreText.text =
+            "<color=#" + ColorUtility.ToHtmlStringRGB(NeonTheme.PlayerColor) + ">" + playerScore + "</color>" +
+            " : " +
+            "<color=#" + ColorUtility.ToHtmlStringRGB(NeonTheme.AiColor) + ">" + aiScore + "</color>";
     }
 
     // =====================================================
@@ -306,6 +310,7 @@ public class GameManager : MonoBehaviour
 
         winText.gameObject.SetActive(true);
         winText.text = result;
+        winText.color = playerWon ? NeonTheme.PlayerColor : NeonTheme.AiColor;
 
         Time.timeScale = 0f;
 

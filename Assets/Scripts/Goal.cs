@@ -13,6 +13,9 @@ public class Goal : MonoBehaviour
         GameFeel feel = GameFeel.Get();
         if (feel != null) feel.Shake(0.3f, 0.35f);
 
+        // Sparks, side flash and bloom pulse
+        NeonTheme.OnGoal(other.transform.position, isLeftGoal);
+
         if (isLeftGoal)
             gm.AIScored();
         else

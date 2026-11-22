@@ -30,6 +30,9 @@ public class Ball : MonoBehaviour
     public float Spin { get; private set; }
     public float StartSpeed => startSpeed;
 
+    // Current speed/spin colour (used by the trail and the neon ball glow)
+    public Color GlowColor { get; private set; } = Color.white;
+
     private Rigidbody2D rb;
     private AudioSource audioSource;
     private TrailRenderer trail;
@@ -100,6 +103,7 @@ public class Ball : MonoBehaviour
 
         // ...and turns blue when the ball is spinning, so the player can read it
         c = Color.Lerp(c, spinTrailColor, maxSpin > 0f ? Mathf.Abs(Spin) / maxSpin : 0f);
+        GlowColor = c;
         trail.startColor = c;
         trail.endColor = new Color(c.r, c.g, c.b, 0f);
     }
@@ -133,6 +137,8 @@ public class Ball : MonoBehaviour
                 : 0f;
 
             // Rising pitch: long rallies sound more and more tense
+            NeonTheme.OnPaddleHit(collision.GetContact(0).point, collision.gameObject);
+
             audioSource.pitch = Mathf.Min(1f + rallyHits * pitchStepPerHit, maxPitch);
             audioSource.PlayOneShot(paddleHit);
 
@@ -151,6 +157,7 @@ public class Ball : MonoBehaviour
         {
             audioSource.pitch = 1f;
             audioSource.PlayOneShot(wallHit);
+            NeonTheme.OnWallHit(collision.GetContact(0).point);
 
             // Hitting a wall flips and weakens the curve, so it bends away from the wall
             Spin *= -0.5f;
