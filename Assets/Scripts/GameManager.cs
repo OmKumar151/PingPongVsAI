@@ -104,6 +104,9 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        // Cancel any pending "launch after delay" from a previous round
+        StopAllCoroutines();
+
         startMenu.SetActive(false);
         pauseMenu.SetActive(false);
         scoreboardPanel.SetActive(false);
@@ -165,6 +168,9 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        // Cancel any pending "launch after delay" from a previous round
+        StopAllCoroutines();
+
         Time.timeScale = 1f;
 
         isPaused = false;
@@ -359,6 +365,9 @@ public class GameManager : MonoBehaviour
 
     public void ExitToMenu()
     {
+        // Cancel any pending "launch after delay" from a previous round
+        StopAllCoroutines();
+
         Time.timeScale = 0f;
 
         isPaused = false;
